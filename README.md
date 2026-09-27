@@ -33,6 +33,24 @@ SMB media playback the primary application.
   select passthrough or a bundled environment without leaving VR.
 - Use controllers, hand tracking, or gaze as available on the headset.
 
+<p align="center">
+  <img src="docs/images/local-smb-library.jpg" width="900" alt="Local storage and SMB NAS media browsing">
+  <br>
+  <em>Local storage and SMB NAS support</em>
+</p>
+
+<p align="center">
+  <img src="docs/images/3d-effect-adjustment.jpg" width="900" alt="3D effect adjustment controls">
+  <br>
+  <em>3D effect adjustment</em>
+</p>
+
+<p align="center">
+  <img src="docs/images/video-playback-interface.jpg" width="900" alt="Video playback interface">
+  <br>
+  <em>Video playback interface</em>
+</p>
+
 The exact video codecs that play depend on the device's Android MediaCodec
 implementation. File extensions describe the browser filter, not a guarantee
 that every codec/profile inside the container is supported.

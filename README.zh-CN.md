@@ -27,6 +27,24 @@ XR 3D Viewer 是一款开源的 Android/OpenXR 媒体查看器，可在一体式
 - 在 VR 内移动和缩放虚拟屏幕、调整立体视差、交换左右眼，并选择透视模式或内置环境。
 - 根据头显支持情况使用控制器、手势追踪或注视操作。
 
+<p align="center">
+  <img src="docs/images/local-smb-library.jpg" width="900" alt="浏览本地存储与 SMB NAS 媒体">
+  <br>
+  <em>本地与 SMB NAS 支持</em>
+</p>
+
+<p align="center">
+  <img src="docs/images/3d-effect-adjustment.jpg" width="900" alt="3D 效果调整控件">
+  <br>
+  <em>3D 效果调整</em>
+</p>
+
+<p align="center">
+  <img src="docs/images/video-playback-interface.jpg" width="900" alt="视频播放界面">
+  <br>
+  <em>视频播放界面</em>
+</p>
+
 实际可播放的视频编码取决于设备的 Android MediaCodec 实现。文件扩展名仅用于浏览器筛选，
 不代表容器中的每一种编码或配置都一定受支持。
 
