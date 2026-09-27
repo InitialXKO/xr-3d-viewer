@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="moonlight-xr-logo-transparent.png" height="180" alt="XR 3D Viewer 标志">
-</p>
-
 # XR 3D Viewer
 
 [English](README.md) | **简体中文**
