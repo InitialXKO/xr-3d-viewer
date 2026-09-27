@@ -50,6 +50,12 @@ XR 3D Viewer 是一款开源的 Android/OpenXR 媒体查看器，可在一体式
 
 ## 工作原理
 
+<p align="center">
+  <img src="docs/images/realtime-2d-to-3d-playback.gif" width="900" alt="实时 2D 转 3D 视频播放">
+  <br>
+  <em>实时 2D 转 3D 视频播放</em>
+</p>
+
 静态图像使用细节更丰富的预处理深度路径：
 
 ```text

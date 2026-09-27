@@ -57,6 +57,12 @@ that every codec/profile inside the container is supported.
 
 ## How it works
 
+<p align="center">
+  <img src="docs/images/realtime-2d-to-3d-playback.gif" width="900" alt="Real-time 2D-to-3D video playback">
+  <br>
+  <em>Real-time 2D-to-3D video playback</em>
+</p>
+
 Still images use a higher-detail prepared-depth path:
 
 ```text
