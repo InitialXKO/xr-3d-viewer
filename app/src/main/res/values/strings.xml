@@ -381,6 +381,16 @@
     <string name="legal_notices_unavailable">The bundled legal notices could not be opened: %1$s</string>
     <string name="choose_local_folder">Choose local media folder</string>
     <string name="local_folder_empty">No supported photos or videos in this folder.</string>
+    <string name="local_folder_entry_count">%1$d entries</string>
+    <string name="local_folder_open_error">Unable to open folder: %1$s</string>
+    <string name="local_folder_read_error">Unable to read folder: %1$s</string>
+    <string name="local_folder_loading">Loading…</string>
+    <string name="recent_media_title">Recently opened</string>
+    <string name="recent_photo_label">Photo: %1$s</string>
+    <string name="recent_video_label">Video: %1$s</string>
+    <string name="recent_photo_content_description">Open recent photo %1$s</string>
+    <string name="recent_video_content_description">Open recent video %1$s</string>
+    <string name="recent_media_open_error">Unable to reopen this recent item: %1$s</string>
     <string name="open_local_video">Open Video</string>
     <string name="browse_smb">Browse SMB</string>
 </resources>

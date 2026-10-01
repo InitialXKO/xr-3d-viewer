@@ -526,10 +526,27 @@ final class XrPanels {
     // The cog that opens the settings panel
     ByteBuffer buildCogButton() {
         // Never blank: the drawn gear stands in if the art does not decode
-        Bitmap button = loadIcon("settings_icon.png", BUTTON_TEX);
-        if (button == null) {
-            button = buildCogFallback();
-        }
+        Bitmap icon = loadIcon("settings_icon.png", BUTTON_TEX);
+        if (icon == null) icon = buildCogFallback();
+
+        Bitmap button = Bitmap.createBitmap(BUTTON_TEX, BUTTON_TEX, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(button);
+        Paint iconPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+        canvas.drawBitmap(icon, null, new RectF(16.0f, 0.0f, BUTTON_TEX - 16.0f, 96.0f),
+                iconPaint);
+        icon.recycle();
+
+        Paint labelBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
+        labelBackground.setColor(0xE0111825);
+        canvas.drawRoundRect(new RectF(5.0f, 97.0f, BUTTON_TEX - 5.0f, BUTTON_TEX - 2.0f),
+                9.0f, 9.0f, labelBackground);
+        Paint label = new Paint(Paint.ANTI_ALIAS_FLAG);
+        label.setColor(Color.WHITE);
+        label.setTextAlign(Paint.Align.CENTER);
+        label.setTextSize(14.0f);
+        label.setFakeBoldText(true);
+        canvas.drawText("SETTINGS", BUTTON_TEX * 0.5f, BUTTON_TEX - 9.0f, label);
+
         ByteBuffer pixels = toBuffer(button);
         button.recycle();
         return pixels;

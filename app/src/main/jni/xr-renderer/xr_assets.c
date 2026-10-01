@@ -244,6 +244,68 @@ static int inCircle(float x, float y, float cx, float cy, float radius) {
     return dx * dx + dy * dy <= radius * radius;
 }
 
+static void drawVideoStatusText(unsigned char* pixels, int width, int height, int status) {
+    static const unsigned char font[26][5] = {
+        {2,5,7,5,5}, {6,5,6,5,6}, {3,4,4,4,3}, {6,5,5,5,6}, {7,4,6,4,7},
+        {7,4,6,4,4}, {3,4,5,5,3}, {5,5,7,5,5}, {7,2,2,2,7}, {1,1,1,5,2},
+        {5,5,6,5,5}, {4,4,4,4,7}, {5,7,7,5,5}, {5,7,7,7,5}, {2,5,5,5,2},
+        {6,5,6,4,4}, {2,5,5,7,3}, {6,5,6,5,5}, {3,4,2,1,6}, {7,2,2,2,2},
+        {5,5,5,5,7}, {5,5,5,5,2}, {5,5,7,7,5}, {5,5,2,5,5}, {5,5,2,2,2},
+        {7,1,2,4,7}
+    };
+    const char* label;
+    unsigned char red, green, blue;
+    switch (status) {
+        case VIDEO_STATUS_PLAYING:
+            label = "PLAYING";
+            red = 83; green = 211; blue = 255;
+            break;
+        case VIDEO_STATUS_BUFFERING:
+            label = "BUFFERING";
+            red = 255; green = 190; blue = 72;
+            break;
+        case VIDEO_STATUS_ENDED:
+            label = "ENDED";
+            red = 157; green = 190; blue = 204;
+            break;
+        case VIDEO_STATUS_PAUSED:
+        default:
+            label = "PAUSED";
+            red = 224; green = 232; blue = 242;
+            break;
+    }
+
+    int length = 0;
+    while (label[length] != '\0') length++;
+    const int scale = 4;
+    const int advance = 4 * scale;
+    const int textWidth = length * advance - scale;
+    int originX = (width - textWidth) / 2;
+    const int originY = 8;
+    for (int i = 0; i < length; i++) {
+        int letter = label[i] - 'A';
+        if (letter < 0 || letter >= 26) continue;
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 3; col++) {
+                if ((font[letter][row] & (1u << (2 - col))) == 0) continue;
+                for (int dy = 0; dy < scale; dy++) {
+                    int y = originY + row * scale + dy;
+                    if (y < 0 || y >= height) continue;
+                    for (int dx = 0; dx < scale; dx++) {
+                        int x = originX + i * advance + col * scale + dx;
+                        if (x < 0 || x >= width) continue;
+                        unsigned char* pixel = pixels + ((y * width) + x) * 4;
+                        pixel[0] = red;
+                        pixel[1] = green;
+                        pixel[2] = blue;
+                        pixel[3] = 255;
+                    }
+                }
+            }
+        }
+    }
+}
+
 // The video strip changes at four Hz as playback advances. Only the sheet
 // currently being shown is redrawn, on the GL-owning frame thread.
 int updateVideoControlArt(XrCtx* ctx, int state) {
@@ -320,6 +382,7 @@ int updateVideoControlArt(XrCtx* ctx, int state) {
             if (transport) p[0] = p[1] = p[2] = p[3] = 255;
         }
     }
+    drawVideoStatusText(px, width, height, ctx->videoStatus);
     int ok = uploadArt(ctx, ctx->imageNavSwapchains[state], ctx->imageNavImages[state],
                        px, width, height);
     free(px);

@@ -86,6 +86,12 @@
 #define VIDEO_CONTROL_PREVIOUS 5
 #define VIDEO_CONTROL_NEXT 6
 
+// Short playback-state labels drawn above the headset seek strip.
+#define VIDEO_STATUS_PAUSED 0
+#define VIDEO_STATUS_PLAYING 1
+#define VIDEO_STATUS_BUFFERING 2
+#define VIDEO_STATUS_ENDED 3
+
 // Horizontal hit zones in the video control texture.
 #define VIDEO_PREVIOUS_L 0.015f
 #define VIDEO_PREVIOUS_R 0.105f

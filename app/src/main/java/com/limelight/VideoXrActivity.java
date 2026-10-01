@@ -330,7 +330,17 @@ public final class VideoXrActivity extends Activity implements XrRenderer.InputL
         long duration = current.getDuration();
         float progress = duration == C.TIME_UNSET || duration <= 0 ? 0.0f
                 : current.getCurrentPosition() / (float)duration;
-        xr.setVideoPlaybackState(current.getPlayWhenReady(), progress);
+        int status;
+        if (current.getPlaybackState() == Player.STATE_BUFFERING) {
+            status = XrRenderer.VIDEO_STATUS_BUFFERING;
+        } else if (current.getPlaybackState() == Player.STATE_ENDED) {
+            status = XrRenderer.VIDEO_STATUS_ENDED;
+        } else if (current.isPlaying()) {
+            status = XrRenderer.VIDEO_STATUS_PLAYING;
+        } else {
+            status = XrRenderer.VIDEO_STATUS_PAUSED;
+        }
+        xr.setVideoPlaybackState(status, current.getPlayWhenReady(), progress);
     }
 
     @Override

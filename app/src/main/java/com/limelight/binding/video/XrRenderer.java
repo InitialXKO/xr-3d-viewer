@@ -42,6 +42,11 @@ import static com.limelight.binding.video.XrShared.*;
  */
 public class XrRenderer implements SurfaceTexture.OnFrameAvailableListener {
 
+    public static final int VIDEO_STATUS_PAUSED = 0;
+    public static final int VIDEO_STATUS_PLAYING = 1;
+    public static final int VIDEO_STATUS_BUFFERING = 2;
+    public static final int VIDEO_STATUS_ENDED = 3;
+
     static {
         System.loadLibrary("xr-renderer");
     }
@@ -236,9 +241,12 @@ public class XrRenderer implements SurfaceTexture.OnFrameAvailableListener {
         videoControlsEnabled = enabled;
     }
 
-    /** Updates the visible play state and timeline without touching native state off-thread. */
-    public void setVideoPlaybackState(boolean playing, float progress) {
-        pendingVideoControlState.set(new VideoControlState(playing,
+    /** Updates visible playback status and timeline without touching native state off-thread. */
+    public void setVideoPlaybackState(int status, boolean playing, float progress) {
+        if (status < VIDEO_STATUS_PAUSED || status > VIDEO_STATUS_ENDED) {
+            status = VIDEO_STATUS_PAUSED;
+        }
+        pendingVideoControlState.set(new VideoControlState(status, playing,
                 Math.max(0.0f, Math.min(1.0f, progress))));
     }
 
@@ -251,10 +259,12 @@ public class XrRenderer implements SurfaceTexture.OnFrameAvailableListener {
     }
 
     private static final class VideoControlState {
+        final int status;
         final boolean playing;
         final float progress;
 
-        VideoControlState(boolean playing, float progress) {
+        VideoControlState(int status, boolean playing, float progress) {
+            this.status = status;
             this.playing = playing;
             this.progress = progress;
         }
@@ -358,7 +368,8 @@ public class XrRenderer implements SurfaceTexture.OnFrameAvailableListener {
     private native void nativeSetScreenPose(long ctx, float[] pose);
     private native void nativeSetImageNavigationDepthReady(long ctx, boolean leftReady,
                                                             boolean rightReady);
-    private native void nativeSetVideoControlState(long ctx, boolean playing, float progress);
+    private native void nativeSetVideoControlState(long ctx, int status, boolean playing,
+                                                  float progress);
     private native void nativeSetVideoDisplayAspect(long ctx, float heightOverWidth);
     private native void nativeUploadBackground(long ctx, ByteBuffer pixels, int width, int height);
     private native void nativeUploadRoomModel(long ctx, ByteBuffer mesh, int length);
@@ -827,7 +838,8 @@ public class XrRenderer implements SurfaceTexture.OnFrameAvailableListener {
 
             VideoControlState videoState = pendingVideoControlState.getAndSet(null);
             if (videoState != null) {
-                nativeSetVideoControlState(nativeCtx, videoState.playing, videoState.progress);
+                nativeSetVideoControlState(nativeCtx, videoState.status, videoState.playing,
+                        videoState.progress);
             }
             Float videoAspect = pendingVideoAspect.getAndSet(null);
             if (videoAspect != null) nativeSetVideoDisplayAspect(nativeCtx, videoAspect);

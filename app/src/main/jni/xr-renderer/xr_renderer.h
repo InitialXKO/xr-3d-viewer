@@ -834,6 +834,7 @@ typedef struct {
     uint32_t imageNavImageCounts[MEDIA_CONTROL_STATES];
     int imageNavReady;
     int videoPlaying;
+    int videoStatus;
     float videoProgress;
     int videoControlArtState;
     int videoControlArtDirty;
